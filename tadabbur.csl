@@ -98,10 +98,17 @@
   </macro>
 
   <macro name="edition">
-    <group delimiter=" ">
-      <text term="edition" form="short"/>
-      <text variable="edition"/>
-    </group>
+    <choose>
+      <if variable="edition">
+        <group delimiter=" ">
+          <text term="edition" form="short"/>
+          <text variable="edition"/>
+        </group>
+      </if>
+      <else>
+        <text value="د.ط"/>
+      </else>
+    </choose>
   </macro>
 
   <macro name="issued">
@@ -124,11 +131,33 @@
     </group>
   </macro>
 
+  <macro name="place">
+    <choose>
+      <if variable="publisher-place">
+        <text variable="publisher-place"/>
+      </if>
+      <else>
+        <text value="د.م"/>
+      </else>
+    </choose>
+  </macro>
+
+  <macro name="publisher-name">
+    <choose>
+      <if variable="publisher">
+        <text variable="publisher"/>
+      </if>
+      <else>
+        <text value="د.ن"/>
+      </else>
+    </choose>
+  </macro>
+
   <macro name="publisher-block">
     <group prefix="(" suffix=")" delimiter="، ">
       <text macro="edition"/>
-      <text variable="publisher-place"/>
-      <text variable="publisher"/>
+      <text macro="place"/>
+      <text macro="publisher-name"/>
       <text macro="issued"/>
     </group>
   </macro>
@@ -136,7 +165,7 @@
   <macro name="thesis-block">
     <group prefix="(" suffix=")" delimiter="، ">
       <text variable="genre"/>
-      <text variable="publisher"/>
+      <text macro="publisher-name"/>
       <text macro="issued"/>
     </group>
   </macro>
