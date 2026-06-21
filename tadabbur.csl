@@ -3,13 +3,13 @@
   <info>
     <title>مجلة تدبر للدراسات القرآنية (Tadabbur)</title>
     <title-short>تدبر</title-short>
-    <id>http://www.zotero.org/styles/tadabbur-journal</id>
-    <link href="http://www.zotero.org/styles/tadabbur-journal" rel="self"/>
+    <id>https://tadabbur.csl/styles/tadabbur-journal</id>
+    <link href="https://tadabbur.csl/styles/tadabbur-journal" rel="self"/>
     <link href="https://www.chicagomanualofstyle.org/tools_citationguide.html" rel="documentation"/>
     <author><name>Tadabbur CSL Studio</name></author>
     <category citation-format="note"/>
     <category field="humanities"/>
-    <summary>نمط مجلة تدبر، مبني على Chicago 17 (Notes and Bibliography) بتكييف عربي: الاسم بترتيبه الطبيعي، المحقق بصيغة «تحقيق:»، بيانات النشر بين قوسين بترتيب (الطبعة، البلد، الناشر، التاريخ).</summary>
+    <summary>نمط مجلة تدبر، مبني على Chicago 17 (Notes and Bibliography) بتكييف عربي. ترتيب الاسم في الحاشية: طبيعي، وفي قائمة المراجع: مقلوب (شيكاغو القياسي). المحقق بصيغة «تحقيق:»، بيانات النشر بين قوسين بترتيب (الطبعة، البلد، الناشر، التاريخ).</summary>
     <updated>2026-06-16T00:00:00+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</rights>
   </info>
@@ -39,6 +39,26 @@
   </macro>
 
   <macro name="author-short">
+    <names variable="author">
+      <name form="short" and="text" delimiter="، "/>
+      <substitute>
+        <names variable="editor"/>
+        <text macro="title-short"/>
+      </substitute>
+    </names>
+  </macro>
+
+  <macro name="author-bib">
+    <names variable="author">
+      <name and="text" delimiter="، " name-as-sort-order="first" sort-separator="، "/>
+      <substitute>
+        <names variable="editor"/>
+        <text macro="title"/>
+      </substitute>
+    </names>
+  </macro>
+
+  <macro name="author-bib-short">
     <names variable="author">
       <name form="short" and="text" delimiter="، "/>
       <substitute>
@@ -153,47 +173,20 @@
         </group>
         </else-if>
         <else>
-        <choose>
-          <if type="book">
-            <group delimiter=" ">
-              <group delimiter="، ">
-                <text macro="author"/>
-                <text macro="title"/>
-                <text macro="contributors"/>
-              </group>
-              <text macro="publisher-block"/>
-              <group delimiter=" "><text term="page" form="short"/><text variable="locator"/></group>
-            </group>
-          </if>
-          <else-if type="thesis">
-            <group delimiter=" ">
-              <group delimiter="، ">
-                <text macro="author"/>
-                <text macro="title"/>
-              </group>
-              <text macro="thesis-block"/>
-              <group delimiter=" "><text term="page" form="short"/><text variable="locator"/></group>
-            </group>
-          </else-if>
-          <else-if type="article-journal article-magazine" match="any">
-            <group delimiter="، ">
-              <text macro="author"/>
-              <text macro="title"/>
-              <text macro="journal-block"/>
-            </group>
-            <text macro="issued-paren" prefix=" "/>
-            <text variable="locator" prefix=": "/>
-          </else-if>
-          <else>
-            <group delimiter="، ">
-              <text macro="author"/>
-              <text macro="title"/>
-              <text variable="container-title"/>
-              <text macro="access-block"/>
-              <text variable="URL"/>
-            </group>
-          </else>
-        </choose>
+        <group delimiter="">
+          <group delimiter="، ">
+            <text macro="author"/>
+            <text macro="title"/>
+            <text macro="contributors"/>
+          </group>
+          <choose>
+            <if type="book"><text macro="publisher-block" prefix=" "/></if>
+            <else-if type="thesis"><text macro="thesis-block" prefix=" "/></else-if>
+            <else-if type="article-journal article-magazine" match="any"><group prefix="، " delimiter=" "><text macro="journal-block"/><text macro="issued-paren"/></group></else-if>
+            <else><text macro="access-block" prefix=" "/></else>
+          </choose>
+          <group prefix=" " delimiter=" "><text term="page" form="short"/><text variable="locator"/></group>
+        </group>
         </else>
       </choose>
     </layout>
@@ -209,7 +202,7 @@
         <if type="book">
           <group delimiter=" ">
             <group delimiter="، ">
-              <text macro="author"/>
+              <text macro="author-bib"/>
               <text macro="title"/>
               <text macro="contributors"/>
             </group>
@@ -218,18 +211,18 @@
         </if>
         <else-if type="article-journal article-magazine" match="any">
           <group delimiter="، ">
-            <text macro="author"/>
+            <text macro="author-bib"/>
             <text macro="title"/>
           </group>
           <text macro="journal-block" prefix="، "/>
           <text macro="issued-paren" prefix=" "/>
-          <text variable="page" prefix=": "/>
+          <group prefix=": "><text term="page" form="short"/><text variable="page" prefix=" "/></group>
           <text variable="URL" prefix="، "/>
         </else-if>
         <else-if type="thesis">
           <group delimiter=" ">
             <group delimiter="، ">
-              <text macro="author"/>
+              <text macro="author-bib"/>
               <text macro="title"/>
             </group>
             <text macro="thesis-block"/>
@@ -237,7 +230,7 @@
         </else-if>
         <else>
           <group delimiter="، ">
-            <text macro="author"/>
+            <text macro="author-bib"/>
             <text macro="title"/>
             <text variable="container-title"/>
             <text macro="access-block"/>
