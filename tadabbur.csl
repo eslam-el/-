@@ -223,7 +223,7 @@
 
   <bibliography hanging-indent="true" entry-spacing="1">
     <sort>
-      <key macro="author"/>
+      <key macro="author-bib"/>
       <key macro="title"/>
     </sort>
     <layout suffix=".">
